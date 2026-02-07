@@ -1,0 +1,86 @@
+---
+layout: single
+title: "Articles"
+permalink: /publications/
+author_profile: true
+classes: pubs
+---
+
+
+{% include base_path %}
+
+<style>
+.pubs-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+.pub-item{
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: .65rem;
+}
+.pub-cover{
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.12);
+  background: rgba(0,0,0,.03);
+}
+.pub-title{
+  font-weight: 650;
+  line-height: 1.25;
+  margin: 0 0 .35rem;
+}
+.pub-meta{
+  margin: 0;
+  opacity: .8;
+  font-size: .92rem;
+}
+.pub-links{
+  margin-top: .5rem;
+  font-size: .95rem;
+}
+.pub-links a{
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0,0,0,.2);
+}
+.pub-links a:hover{
+  border-bottom-color: rgba(0,0,0,.5);
+}
+@media (max-width: 900px){
+  .pubs-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px){
+  .pubs-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .pub-cover{
+    aspect-ratio: auto;     /* stop forcing a shape */
+    height: auto;
+    object-fit: contain;    /* show full image */
+    background: rgba(0,0,0,.03);
+  }
+}
+
+</style>
+
+<div class="pubs-grid">
+  {% assign pubs = site.data.publications | sort: "year" | reverse %}
+  {% for p in pubs %}
+    <article class="pub-item">
+      <img class="pub-cover" src="{{ base_path }}{{ p.cover }}" alt="{{ p.venue }} cover">
+      <div>
+        <p class="pub-title">{{ p.title }}</p>
+        <p class="pub-meta">{{ p.venue }} • {{ p.year }}</p>
+        <p class="pub-links">
+          <a href="{{ p.url }}" target="_blank" rel="noopener">Read article</a>
+        </p>
+      </div>
+    </article>
+  {% endfor %}
+</div>
+
