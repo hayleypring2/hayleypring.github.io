@@ -148,4 +148,36 @@ details p {
   padding-top: 3rem;
 }
 
+/* === Fiona-like simple header (keep sidebar) === */
+
+/* Clean, white masthead with a subtle divider */
+.masthead {
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+/* More airy spacing like Fiona */
+.masthead__inner-wrap {
+  padding-top: 1.25rem;
+  padding-bottom: 1rem;
+}
+
+/* Slightly larger site title */
+.site-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Nav links: simple, readable */
+.masthead__menu-item a {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Push page content down a bit (this is the “further down” feel) */
+.page__inner-wrap {
+  padding-top: 2.5rem;
+}
+
+
 
