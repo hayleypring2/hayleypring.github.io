@@ -13,10 +13,10 @@ title                    : "Hayley Pring"
 title_separator          : "-"
 name                     : &name "Hayley Pring"
 description              : &description "Academic Website"   # Update this with a general description of your site, this is the default if not overridden by a page
-url: "https://hayleypring2.github.io"
-baseurl: "/academicpages.github.io"
+url: "https://hayleypring.github.io"
+baseurl: "/hayleypring"
+repository: "hayleypring2/hayleypring.github.io"
 
-repository               : "academicpages/academicpages.github.io"
 
 # Site Author - The following control what appear as part of the author content on the side bar.
 #               If a field is blank the icon and link will not appear, otherwise it will be shown.
