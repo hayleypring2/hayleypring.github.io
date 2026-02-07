@@ -8,14 +8,5 @@ main:
   - title: "Home"
     url: /
 
-  - title: "About"
+  - title: "Research"
     url: /about/
-
-  - title: "Publications"
-    url: /publications/
-
-  - title: "Billionaire Backlash"
-    url: /billionaire-backlash/
-
-  - title: "Books"
-    url: /books/
