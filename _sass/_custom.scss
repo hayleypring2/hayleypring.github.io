@@ -1,1 +1,154 @@
+/* Mobile-only quick links under author bio */
+.author__quicklinks{
+  display: none;
+  margin-top: .6rem;
+  gap: .8rem;
+  flex-wrap: wrap;
+}
+
+.author__quicklink{
+  font-size: 1.05rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.author__quicklink:hover{
+  opacity: .7;
+}
+
+@media (max-width: 700px){
+  .author__quicklinks{
+    display: flex;
+  }
+}
+
+
+/* === Background override that still respects the day/night toggle === */
+/* Works whether the toggle uses data-theme="dark" or a .dark/.dark-theme class */
+
+:root {
+  --site-bg: #ffffff;
+}
+
+/* Dark mode: cover the common implementations */
+html[data-theme="dark"],
+body[data-theme="dark"],
+html.dark,
+body.dark,
+html.dark-theme,
+body.dark-theme {
+  --site-bg: #111111;
+}
+
+/* Apply the variable to the main wrappers (no !important so dark mode can win) */
+html, body,
+#main,
+.initial-content,
+.page,
+.page__inner-wrap,
+.page__content,
+.page__content-wrap,
+.archive,
+.sidebar,
+.sidebar__right {
+  background-color: var(--site-bg);
+}
+
+
+/* Research page: clean expandable abstracts */
+details summary {
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+details[open] summary {
+  margin-bottom: 0.5rem;
+}
+
+details p {
+  margin-left: 0;
+  margin-top: 0.25rem;
+}
+
+/* === Typography: reduce size and improve readability === */
+
+/* Body font */
+.page__content,
+.page__content p,
+.page__content li {
+  font-family: "STIX Two Text", ui-serif, Georgia, "Times New Roman", serif;
+}
+
+/* Normal body size */
+.page__content p,
+.page__content li {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+/* Comfortable measure */
+.page__content {
+  max-width: 720px;
+}
+
+/* Don’t push content down too far */
+.page__inner-wrap {
+  padding-top: 1rem;
+}
+
+/* === Masthead: keep it visible, don’t let it overlay / clip content === */
+
+/* Force masthead to behave like a normal block */
+.masthead {
+  position: relative !important;
+  z-index: 10;
+  overflow: visible !important;
+
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.72)),
+    url("/hayleypring.github.io/images/header.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  padding: 1.2rem 0 0.9rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.10);
+}
+
+.masthead__inner-wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Make the nav bar stop being an opaque white strip */
+.greedy-nav,
+.greedy-nav__toggle,
+.masthead__menu {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Nav link styling */
+.site-title {
+  font-size: 1.15rem;
+  font-weight: 650;
+}
+
+.masthead__menu-item a {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* If anything is clipping the page, unclip the main wrappers */
+.initial-content,
+#main,
+.page,
+.page__inner-wrap,
+.page__content,
+.archive {
+  overflow: visible !important;
+  height: auto !important;
+  max-height: none !important;
+}
 
