@@ -115,23 +115,37 @@ details p {
   margin-top: 0.25rem;
 }
 
-/* --- Antonio-like typography + spacing --- */
+/* === Antonio-style typography & layout === */
 
-/* comfortable reading width */
-.page__content {
-  max-width: 62ch;
-}
-
-/* make the main content start lower (breathing room) */
-.page__inner-wrap {
-  padding-top: 2.25rem;
-}
-
-/* typography tweaks (keeps default look, just nicer) */
+/* Use a clean system sans-serif stack */
+.page__content,
 .page__content p,
 .page__content li {
-  font-size: 1.05rem;
-  line-height: 1.65;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+}
+
+/* Larger, more readable body text */
+.page__content p,
+.page__content li {
+  font-size: 1.125rem;   /* this is the key difference */
+  line-height: 1.75;
+}
+
+/* Normal, comfortable text width (not narrow) */
+.page__content {
+  max-width: 720px;
+}
+
+/* Push content further down the page (Antonio effect) */
+.page__inner-wrap {
+  padding-top: 3rem;
 }
 
 
