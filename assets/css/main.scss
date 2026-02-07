@@ -115,74 +115,83 @@ details p {
   margin-top: 0.25rem;
 }
 
-/* === Antonio-style typography & layout === */
+/* === Typography: reduce size and improve readability === */
 
-/* Use a clean system sans-serif stack */
+/* Body font */
 .page__content,
 .page__content p,
 .page__content li {
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;
+  font-family: "STIX Two Text", ui-serif, Georgia, "Times New Roman", serif;
 }
 
-/* Larger, more readable body text */
+/* Normal body size (your 1.125rem was the “enormous” issue) */
 .page__content p,
 .page__content li {
-  font-size: 1.125rem;   /* this is the key difference */
-  line-height: 1.75;
+  font-size: 1rem;
+  line-height: 1.65;
 }
 
-/* Normal, comfortable text width (not narrow) */
+/* Comfortable measure */
 .page__content {
   max-width: 720px;
 }
 
-/* Push content further down the page (Antonio effect) */
+/* IMPORTANT: don’t push content down a ton (you had this twice) */
 .page__inner-wrap {
-  padding-top: 3rem;
+  padding-top: 1rem;
 }
 
-/* === Fiona-style faded header (image behind title + nav, not a hero) === */
+/* === Masthead: keep it visible, don’t let it overlay / clip content === */
 
+/* Force masthead to behave like a normal block */
 .masthead {
+  position: relative !important;
+  z-index: 10;
+  overflow: visible !important;
+
   background-image:
-    linear-gradient(
-      rgba(255, 255, 255, 0.72),
-      rgba(255, 255, 255, 0.72)
-    ),
+    linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.72)),
     url("/hayleypring.github.io/images/header.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  padding: 1.75rem 0 1.25rem;
+  padding: 1.2rem 0 0.9rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.10);
 }
 
-/* Inner spacing: keep it tight and intentional */
 .masthead__inner-wrap {
   padding-top: 0;
   padding-bottom: 0;
 }
 
-/* Title + nav typography (subtle, Fiona-like) */
+/* Make the nav bar stop being an opaque white strip */
+.greedy-nav,
+.greedy-nav__toggle,
+.masthead__menu {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Nav link styling a bit cleaner */
 .site-title {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 650;
 }
 
 .masthead__menu-item a {
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 500;
 }
 
-/* Push page content down slightly */
-.page__inner-wrap {
-  padding-top: 2.5rem;
+/* If anything is still clipping the page, unclip the main wrappers */
+.initial-content,
+#main,
+.page,
+.page__inner-wrap,
+.page__content,
+.archive {
+  overflow: visible !important;
+  height: auto !important;
+  max-height: none !important;
 }
