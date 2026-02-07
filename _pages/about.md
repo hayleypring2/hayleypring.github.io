@@ -10,7 +10,7 @@ I'm a Post-Doctoral Research Fellow at Oxford University in the Department of Po
 
 My PhD used a theory of corporate reputation to explain firm behaviour in climate change, geopolitics, and economic statecraft. I'm trained in R, Python, statistics, causal inference techniques, data analytics, computational methods, and machine learning techniques. I work at the intersection of business–politics and public policy.<br>
 
-I occasionally consult for government, NGOs, companies or trade associations.
+I occasionally consult for government, NGOs, companies and trade associations.
 
 
 
