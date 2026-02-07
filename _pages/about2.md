@@ -68,6 +68,7 @@ I study political economy with a dual focus on (1) how reputational costs influe
 
 
 **Who Needs To Be Seen To Be Green? How Reputational Pressure Affects Responses To Climate Change** 
+* Hayley Pring *
 *2025*
 
 <details>
@@ -79,8 +80,8 @@ I study political economy with a dual focus on (1) how reputational costs influe
 
 
 
-**Who Gives a Damn About a Bad Reputation?
-The Corporate Exodus and the Russian-Ukrainian War** 
+**Who Gives a Damn About a Bad Reputation? The Corporate Exodus and the Russian-Ukrainian War** 
+* Hayley Pring *
 * 2025 *
 
 <details>
