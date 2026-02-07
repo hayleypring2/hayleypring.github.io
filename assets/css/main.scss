@@ -148,56 +148,41 @@ details p {
   padding-top: 3rem;
 }
 
-/* === Fiona-like simple header (keep sidebar) === */
+/* === Fiona-style faded header (image behind title + nav, not a hero) === */
 
-/* Clean, white masthead with a subtle divider */
 .masthead {
-  background: #fff;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
-}
-
-/* More airy spacing like Fiona */
-.masthead__inner-wrap {
-  padding-top: 1.25rem;
-  padding-bottom: 1rem;
-}
-
-/* Slightly larger site title */
-.site-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-/* Nav links: simple, readable */
-.masthead__menu-item a {
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-/* Push page content down a bit (this is the “further down” feel) */
-.page__inner-wrap {
-  padding-top: 2.5rem;
-}
-
-/* === Fiona-style faded photo header behind title + nav === */
-.masthead {
-  /* photo */
   background-image:
-    linear-gradient(rgba(255,255,255,0.70), rgba(255,255,255,0.70)),
+    linear-gradient(
+      rgba(255, 255, 255, 0.72),
+      rgba(255, 255, 255, 0.72)
+    ),
     url("/hayleypring.github.io/images/header.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  /* make it “header height”, not a hero */
   padding: 1.75rem 0 1.25rem;
-  border-bottom: 1px solid rgba(0,0,0,0.10);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.10);
 }
 
-/* a little extra spacing like Fiona */
+/* Inner spacing: keep it tight and intentional */
 .masthead__inner-wrap {
   padding-top: 0;
   padding-bottom: 0;
 }
 
+/* Title + nav typography (subtle, Fiona-like) */
+.site-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
 
+.masthead__menu-item a {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* Push page content down slightly */
+.page__inner-wrap {
+  padding-top: 2.5rem;
+}
