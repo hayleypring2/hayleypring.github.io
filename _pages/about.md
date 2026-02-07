@@ -7,7 +7,7 @@ author_profile: true
 
 
 
-I'm a Post-Doctoral Research Fellow at Oxford University in the Department of Politics and International Relations. I am also a Skoll ECR Fellow at Saïd Business School. I work on the [Climate Vulnerability Project](https://climatevulnerability.wordpress.com/) with Professor Federica Genovese. I received my PhD and MPhil in International Relations from Nuffield College, Oxford University, and my B (Hons) from the Australian National University.<br>
+I'm a Post-Doctoral Research Fellow at Oxford University in the Department of Politics and International Relations. I am also a Skoll ECR Fellow at Saïd Business School, and a Non-Stipendiary Fellow at Nuffield College. I work on the [Climate Vulnerability Project](https://climatevulnerability.wordpress.com/) with Professor Federica Genovese. I received my PhD and MPhil in International Relations from Nuffield College, Oxford University, and my BA (Hons) from the Australian National University.<br>
 
 My PhD used a theory of corporate reputation to explain firm behaviour in climate change, geopolitics, and economic statecraft. I'm trained in R, Python, statistics, causal inference techniques, data analytics, computational methods, and machine learning techniques. I work at the intersection of business–politics and public policy.
 <br>
