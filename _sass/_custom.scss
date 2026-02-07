@@ -1,3 +1,7 @@
+/* ===== Custom overrides (SAFE BASELINE) =====
+   Keep the site readable and functional without fighting the theme header/nav.
+*/
+
 /* Mobile-only quick links under author bio */
 .author__quicklinks{
   display: none;
@@ -40,7 +44,7 @@ body.dark-theme {
   --site-bg: #111111;
 }
 
-/* Apply the variable to the main wrappers (no !important so dark mode can win) */
+/* Apply the variable to the main wrappers */
 html, body,
 #main,
 .initial-content,
@@ -58,7 +62,7 @@ html, body,
 /* Research page: clean expandable abstracts */
 details summary {
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
   margin-top: 0.25rem;
 }
 
@@ -71,9 +75,10 @@ details p {
   margin-top: 0.25rem;
 }
 
+
 /* === Typography: reduce size and improve readability === */
 
-/* Body font */
+/* Use STIX if loaded; fall back gracefully */
 .page__content,
 .page__content p,
 .page__content li {
@@ -92,63 +97,12 @@ details p {
   max-width: 720px;
 }
 
-/* Don’t push content down too far */
+/* Don't push content down a ton */
 .page__inner-wrap {
   padding-top: 1rem;
 }
 
-/* === Masthead: keep it visible, don’t let it overlay / clip content === */
-
-/* Force masthead to behave like a normal block */
-.masthead {
-  position: relative !important;
-  z-index: 10;
-  overflow: visible !important;
-
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.72)),
-    url("/hayleypring.github.io/images/header.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  padding: 1.2rem 0 0.9rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.10);
-}
-
-.masthead__inner-wrap {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-/* Make the nav bar stop being an opaque white strip */
-.greedy-nav,
-.greedy-nav__toggle,
-.masthead__menu {
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-/* Nav link styling */
-.site-title {
-  font-size: 1.15rem;
-  font-weight: 650;
-}
-
-.masthead__menu-item a {
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-
-/* If anything is clipping the page, unclip the main wrappers */
-.initial-content,
-#main,
-.page,
-.page__inner-wrap,
-.page__content,
-.archive {
-  overflow: visible !important;
-  height: auto !important;
-  max-height: none !important;
-}
-
+/* IMPORTANT:
+   Do NOT override .masthead / .greedy-nav here right now.
+   Those overrides are what made the header/nav look broken (floating white pill).
+*/
