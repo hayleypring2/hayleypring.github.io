@@ -24,7 +24,7 @@ repository: "hayleypring2/hayleypring.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           :  "128-007-HayleyPring.jpeg"
+  avatar           :  "author.jpg"
   name             : "Hayley Pring"
   pronouns         : # example: "she/her"  
   bio              : "Post-Doctoral Research Fellow, Oxford University."
