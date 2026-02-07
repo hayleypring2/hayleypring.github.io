@@ -1,10 +1,4 @@
 
----
-title: "Research"
-permalink: /research/
-layout: single
-author_profile: true
----
 
 I study political economy with a dual focus on (1) how reputational costs influence firm behaviour in cooperation problems, and (2) climate change and energy.
 
