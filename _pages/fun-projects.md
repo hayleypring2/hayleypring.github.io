@@ -6,10 +6,10 @@ layout: single
 ---
 
 <details>
-  <summary><strong>Renewables</strong> ▸</summary>
+  <summary><strong>Renewables</strong></summary>
 
   <p style="margin-top:10px;">
-    <a href="/files/renewables/index.html">Map 1: UK Renewable Politics</a><br>
-    <a href="/files/renewables/hotspots.html">Map 2: Hotspots (Tech × Reform)</a>
+    <a href="/files/renewables/index.html">Map 1: Map of the Technological build-out of the Energy Transition in the UK</a><br>
+    <a href="/files/renewables/hotspots.html">Map 2: Reform vote share % change </a>
   </p>
 </details>
