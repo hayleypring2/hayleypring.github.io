@@ -5,7 +5,11 @@ author_profile: true
 layout: single
 ---
 
-## Interactive work
+<details>
+  <summary><strong>Renewables</strong> ▸</summary>
 
-- [UK Renewable Politics Project (Map 1)](/files/renewables/index.html)
-- [UK Renewable Politics Project (Hotspots)](/files/renewables/hotspots.html)
+  <p style="margin-top:10px;">
+    <a href="/files/renewables/index.html">Map 1: UK Renewable Politics</a><br>
+    <a href="/files/renewables/hotspots.html">Map 2: Hotspots (Tech × Reform)</a>
+  </p>
+</details>
