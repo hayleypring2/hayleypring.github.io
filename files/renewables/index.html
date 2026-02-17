@@ -5,110 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>UK Renewables: Power, Politics, Place</title>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,200..900;1,200..900&family=Fraunces:opsz,wght@9..144,300..700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/maplibre-gl@4.1.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
     <style>
-      :root {
-        --ink: #0e141b;
-        --paper: #f4f0ea;
-        --accent: #2a9d8f;
-        --accent-2: #e76f51;
-        --muted: #50606f;
-      }
-      html, body {
-        height: 100%;
-        margin: 0;
-        background: var(--paper);
-        color: var(--ink);
-        font-family: "Archivo", system-ui, sans-serif;
-      }
-      .page {
-        display: grid;
-        grid-template-columns: 360px 1fr;
-        height: 100%;
-      }
-      .sidebar {
-        padding: 24px 22px;
-        border-right: 1px solid #d5d0c8;
-        background: linear-gradient(180deg, #f7f3ee 0%, #efe9e0 100%);
-      }
-      .title {
-        font-family: "Fraunces", serif;
-        font-size: 26px;
-        line-height: 1.2;
-        margin-bottom: 12px;
-      }
-      .subtitle {
-        color: var(--muted);
-        font-size: 14px;
-        line-height: 1.5;
-        margin-bottom: 18px;
-      }
-      .control {
-        margin-bottom: 18px;
-      }
-      label {
-        font-size: 12px;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-      }
-      select, input[type="range"] {
-        width: 100%;
-        margin-top: 6px;
-        padding: 8px 10px;
-        border-radius: 8px;
-        border: 1px solid #cfc7bd;
-        background: #fff;
-        font-size: 14px;
-      }
-      .legend {
-        margin-top: 18px;
-        font-size: 12px;
-        color: var(--muted);
-      }
-      .legend .chip {
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        margin-right: 6px;
-        border-radius: 2px;
-      }
-      #map {
-        position: relative;
-      }
-      #mapCanvas {
-        position: absolute;
-        inset: 0;
-      }
-      .tooltip {
-        position: absolute;
-        pointer-events: none;
-        background: #ffffffee;
-        border: 1px solid #d0c6bb;
-        padding: 8px 10px;
-        font-size: 12px;
-        border-radius: 8px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-      }
-      @media (max-width: 900px) {
-        .page {
-          grid-template-columns: 1fr;
-          grid-template-rows: 300px 1fr;
-        }
-        .sidebar {
-          border-right: none;
-          border-bottom: 1px solid #d5d0c8;
-        }
-      }
+      :root { --ink:#0e141b; --paper:#f4f0ea; --accent:#2a9d8f; --accent-2:#e76f51; --muted:#50606f; }
+      html, body { height:100%; margin:0; background:var(--paper); color:var(--ink); font-family:"Archivo", system-ui, sans-serif; }
+      .page { display:grid; grid-template-columns:360px 1fr; height:100%; }
+      .sidebar { padding:24px 22px; border-right:1px solid #d5d0c8; background:linear-gradient(180deg,#f7f3ee 0%,#efe9e0 100%); }
+      .title { font-family:"Fraunces", serif; font-size:26px; line-height:1.2; margin-bottom:12px; }
+      .subtitle { color:var(--muted); font-size:14px; line-height:1.5; margin-bottom:18px; }
+      .control { margin-bottom:18px; }
+      label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+      select, input[type="range"] { width:100%; margin-top:6px; padding:8px 10px; border-radius:8px; border:1px solid #cfc7bd; background:#fff; font-size:14px; }
+      .legend { margin-top:18px; font-size:12px; color:var(--muted); }
+      .legend .chip { display:inline-block; width:12px; height:12px; margin-right:6px; border-radius:2px; }
+      #map { position:relative; }
+      #mapCanvas { position:absolute; inset:0; }
+      .tooltip { position:absolute; pointer-events:none; background:#ffffffee; border:1px solid #d0c6bb; padding:8px 10px; font-size:12px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.12); }
+      @media (max-width: 900px) { .page { grid-template-columns:1fr; grid-template-rows:300px 1fr; } .sidebar { border-right:none; border-bottom:1px solid #d5d0c8; } }
     </style>
   </head>
   <body>
     <div class="page">
       <aside class="sidebar">
         <div class="title">UK Renewables: Power, Politics, Place</div>
-        <div class="subtitle">
-          Capacity-weighted density of renewable projects. Filter by technology and status to see the geography of build-out.
-        </div>
+        <div class="subtitle">Capacity-weighted density of renewable projects. Filter by technology and status to see the geography of build-out.</div>
 
         <div class="control">
           <label for="view">View</label>
@@ -175,10 +95,10 @@
       </main>
     </div>
 
-    <script src="https://unpkg.com/maplibre-gl@4.1.0/dist/maplibre-gl.js"></script>
-    <script src="https://unpkg.com/deck.gl@9.0.36/dist.min.js"></script>
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <script src="https://unpkg.com/deck.gl@8.9.36/dist.min.js"></script>
     <script>
-      const DATA_URL = "../../data_processed/repd_points.geojson";
+      const DATA_URL = "./repd_points.geojson";
 
       const map = new maplibregl.Map({
         container: "mapCanvas",
@@ -275,18 +195,9 @@
       async function init() {
         try {
           const res = await fetch(DATA_URL);
-          if (!res.ok) {
-            throw new Error(`Failed to load data: ${res.status}`);
-          }
+          if (!res.ok) throw new Error(`Failed to load data: ${res.status}`);
           const geojson = await res.json();
           rawFeatures = geojson.features || [];
-          console.log("Loaded features:", rawFeatures.length);
-          if (rawFeatures.length > 0) {
-            const techs = new Set(rawFeatures.map(f => f.properties?.technology_type).filter(Boolean));
-            const statuses = new Set(rawFeatures.map(f => f.properties?.development_status).filter(Boolean));
-            console.log("Sample techs:", Array.from(techs).slice(0, 10));
-            console.log("Sample statuses:", Array.from(statuses).slice(0, 10));
-          }
           updateLayer();
         } catch (err) {
           console.error(err);
