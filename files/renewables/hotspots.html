@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hotspots: Tech Introduction & Reform Change</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,200..900;1,200..900&family=Fraunces:opsz,wght@9..144,300..700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/maplibre-gl@4.1.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <style>
+      :root {
+        --ink: #0e141b;
+        --paper: #f4f0ea;
+        --accent: #2a9d8f;
+        --accent-2: #e76f51;
+        --muted: #50606f;
+      }
+      html, body { height: 100%; margin: 0; background: var(--paper); color: var(--ink); font-family: "Archivo", system-ui, sans-serif; }
+      .page { display: grid; grid-template-columns: 360px 1fr; height: 100%; }
+      .sidebar { padding: 24px 22px; border-right: 1px solid #d5d0c8; background: linear-gradient(180deg, #f7f3ee 0%, #efe9e0 100%); }
+      .title { font-family: "Fraunces", serif; font-size: 26px; line-height: 1.2; margin-bottom: 12px; }
+      .subtitle { color: var(--muted); font-size: 14px; line-height: 1.5; margin-bottom: 18px; }
+      .control { margin-bottom: 18px; }
+      label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+      select { width: 100%; margin-top: 6px; padding: 8px 10px; border-radius: 8px; border: 1px solid #cfc7bd; background: #fff; font-size: 14px; }
+      .legend { margin-top: 18px; font-size: 12px; color: var(--muted); }
+      .legend .chip { display: inline-block; width: 12px; height: 12px; margin-right: 6px; border-radius: 2px; }
+      #map { position: relative; }
+      #mapCanvas { position: absolute; inset: 0; }
+      @media (max-width: 900px) {
+        .page { grid-template-columns: 1fr; grid-template-rows: 300px 1fr; }
+        .sidebar { border-right: none; border-bottom: 1px solid #d5d0c8; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <aside class="sidebar">
+        <div class="title">Tech Introduction & Reform Change</div>
+        <div class="subtitle">
+          Where technologies were introduced and where Reform support increased (earliest→latest election in data).
+        </div>
+
+        <div class="control">
+          <label for="layer">Layer</label>
+          <select id="layer">
+            <option value="tech_introduced">Tech Introduced (Earliest→Latest)</option>
+            <option value="dominant_tech">Dominant Tech (Approvals)</option>
+            <option value="reform_increase">Reform Share Increase</option>
+            <option value="reform_change">Reform Share Change (Gradient)</option>
+            <option value="scot_cb_yes_share">Scotland: Community Benefit Intensity</option>
+            <option value="scot_so_yes_share">Scotland: Shared Ownership Intensity</option>
+            <option value="hotspot">Hotspot (Top Decile)</option>
+            <option value="approvals_change">Approvals Change (Earliest→Latest)</option>
+            <option value="seat_flip">Seat Flip (2024)</option>
+          </select>
+        </div>
+
+        <div class="legend" id="legend"></div>
+        <div class="subtitle" style="margin-top:18px;">
+          <a href="index.html">Back to Density Map</a>
+        </div>
+      </aside>
+
+      <main id="map">
+        <div id="mapCanvas"></div>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/maplibre-gl@4.1.0/dist/maplibre-gl.js"></script>
+    <script>
+      const DATA_URL = "../../data_processed/mp_hotspots_2019_2024.geojson";
+
+      const map = new maplibregl.Map({
+        container: "mapCanvas",
+        style: "https://demotiles.maplibre.org/style.json",
+        center: [-2.6, 54.6],
+        zoom: 5.1
+      });
+
+      function setLegend(type) {
+        const el = document.getElementById("legend");
+        if (type === "tech_introduced") {
+          el.innerHTML = '<div><span class="chip" style="background:#2a9d8f"></span>Wind onshore</div><div><span class="chip" style="background:#264653"></span>Wind offshore</div><div><span class="chip" style="background:#f4a261"></span>Solar</div><div><span class="chip" style="background:#e76f51"></span>Storage</div><div><span class="chip" style="background:#6c5b7b"></span>Bio/Waste</div><div><span class="chip" style="background:#e9dcc9"></span>None</div>';
+        } else if (type === "dominant_tech") {
+          el.innerHTML = '<div><span class="chip" style="background:#2a9d8f"></span>Wind onshore</div><div><span class="chip" style="background:#264653"></span>Wind offshore</div><div><span class="chip" style="background:#f4a261"></span>Solar</div><div><span class="chip" style="background:#e76f51"></span>Storage</div><div><span class="chip" style="background:#6c5b7b"></span>Bio/Waste</div><div><span class="chip" style="background:#e9dcc9"></span>None</div>';
+        } else if (type === "reform_increase") {
+          el.innerHTML = '<div><span class="chip" style="background:#e76f51"></span>Increase</div><div><span class="chip" style="background:#e9dcc9"></span>No increase</div>';
+        } else if (type === "reform_change") {
+          el.innerHTML = '<div><span class="chip" style="background:#264653"></span>Decrease</div><div><span class="chip" style="background:#e9dcc9"></span>No change</div><div><span class="chip" style="background:#e76f51"></span>Increase</div>';
+        } else if (type === "scot_cb_yes_share") {
+          el.innerHTML = '<div><span class="chip" style="background:#d9d9d9"></span>Outside Scotland</div><div><span class="chip" style="background:#e9dcc9"></span>Lower</div><div><span class="chip" style="background:#2a9d8f"></span>Higher</div>';
+        } else if (type === "scot_so_yes_share") {
+          el.innerHTML = '<div><span class="chip" style="background:#d9d9d9"></span>Outside Scotland</div><div><span class="chip" style="background:#e9dcc9"></span>Lower</div><div><span class="chip" style="background:#264653"></span>Higher</div>';
+        } else if (type === "hotspot") {
+          el.innerHTML = '<div><span class="chip" style="background:#e76f51"></span>Hotspot (top decile approvals)</div><div><span class="chip" style="background:#e9dcc9"></span>Other</div>';
+        } else if (type === "approvals_change") {
+          el.innerHTML = '<div><span class="chip" style="background:#2a9d8f"></span>Higher increase</div><div><span class="chip" style="background:#e9dcc9"></span>No change</div><div><span class="chip" style="background:#264653"></span>Decrease</div>';
+        } else if (type === "seat_flip") {
+          el.innerHTML = '<div><span class="chip" style="background:#e76f51"></span>Seat flipped</div><div><span class="chip" style="background:#e9dcc9"></span>No flip</div>';
+        }
+      }
+
+      map.on("load", async () => {
+        const res = await fetch(DATA_URL);
+        const geojson = await res.json();
+        map.addSource("hotspots", { type: "geojson", data: geojson });
+
+        map.addLayer({
+          id: "hotspot-fill",
+          type: "fill",
+          source: "hotspots",
+          paint: {
+            "fill-color": [
+              "case",
+              ["==", ["get", "hotspot"], 1], "#e76f51",
+              "#e9dcc9"
+            ],
+            "fill-opacity": 0.75
+          }
+        });
+
+        map.addLayer({
+          id: "outline",
+          type: "line",
+          source: "hotspots",
+          paint: { "line-color": "#ffffff", "line-width": 0.5 }
+        });
+
+        setLegend("tech_introduced");
+      });
+
+      document.getElementById("layer").addEventListener("change", (e) => {
+        const type = e.target.value;
+        setLegend(type);
+        if (!map.getLayer("hotspot-fill")) return;
+
+        if (type === "tech_introduced") {
+          map.setPaintProperty("hotspot-fill", "fill-color", [
+            "match",
+            ["get", "tech_introduced"],
+            "wind_onshore", "#2a9d8f",
+            "wind_offshore", "#264653",
+            "solar", "#f4a261",
+            "storage", "#e76f51",
+            "bio_waste", "#6c5b7b",
+            "#e9dcc9"
+          ]);
+        } else if (type === "dominant_tech") {
+          map.setPaintProperty("hotspot-fill", "fill-color", [
+            "match",
+            ["get", "dominant_tech"],
+            "wind_onshore", "#2a9d8f",
+            "wind_offshore", "#264653",
+            "solar", "#f4a261",
+            "storage", "#e76f51",
+            "bio_waste", "#6c5b7b",
+            "#e9dcc9"
+          ]);
+        } else if (type === "reform_increase") {
+          map.setPaintProperty("hotspot-fill", "fill-color", [
+            "case",
+            ["==", ["get", "reform_increase"], 1], "#e76f51",
+            "#e9dcc9"
+          ]);
+        } else if (type === "reform_change") {
+          map.setPaintProperty("hotspot-fill", "fill-color", [
+            "interpolate",
+            ["linear"],
+            ["coalesce", ["get", "reform_change"], 0],
+            -0.05, "#264653",
+            0, "#e9dcc9",
+            0.05, "#e76f51"
+          ]);
+        } else if (type === "scot_cb_yes_share") {
+          map.setPaintProperty("hotspot-fill", "fill-color", [
+            "case",
+            ["==", ["get", "is_scotland_constituency"], 1],
+            ["interpolate", ["linear"], ["coalesce", ["get", "scot_cb_yes_share"], 0], 0, "#e9dcc9", 1, "#2a9d8f"],
+            "#d9d9d9"
+          ]);
+        } else if (type === "scot_so_yes_share") {
+          map.setPaintProperty("hotspot-fill", "fill-color", [
+            "case",
+            ["==", ["get", "is_scotland_constituency"], 1],
+            ["interpolate", ["linear"], ["coalesce", ["get", "scot_so_yes_share"], 0], 0, "#e9dcc9", 1, "#264653"],
+            "#d9d9d9"
+          ]);
+        } else if (type === "hotspot") {
+          map.setPaintProperty("hotspot-fill", "fill-color", [
+            "case",
+            ["==", ["get", "hotspot"], 1], "#e76f51",
+            "#e9dcc9"
+          ]);
+        } else if (type === "approvals_change") {
+          map.setPaintProperty("hotspot-fill", "fill-color", [
+            "interpolate",
+            ["linear"],
+            ["coalesce", ["get", "approvals_change"], 0],
+            -50, "#264653",
+            0, "#e9dcc9",
+            50, "#2a9d8f"
+          ]);
+        } else if (type === "seat_flip") {
+          map.setPaintProperty("hotspot-fill", "fill-color", [
+            "case",
+            ["==", ["get", "seat_flip"], 1], "#e76f51",
+            "#e9dcc9"
+          ]);
+        }
+      });
+    </script>
+  </body>
+</html>

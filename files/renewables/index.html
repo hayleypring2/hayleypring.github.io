@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UK Renewables: Power, Politics, Place</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,200..900;1,200..900&family=Fraunces:opsz,wght@9..144,300..700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/maplibre-gl@4.1.0/dist/maplibre-gl.css" rel="stylesheet" />
+    <style>
+      :root {
+        --ink: #0e141b;
+        --paper: #f4f0ea;
+        --accent: #2a9d8f;
+        --accent-2: #e76f51;
+        --muted: #50606f;
+      }
+      html, body {
+        height: 100%;
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Archivo", system-ui, sans-serif;
+      }
+      .page {
+        display: grid;
+        grid-template-columns: 360px 1fr;
+        height: 100%;
+      }
+      .sidebar {
+        padding: 24px 22px;
+        border-right: 1px solid #d5d0c8;
+        background: linear-gradient(180deg, #f7f3ee 0%, #efe9e0 100%);
+      }
+      .title {
+        font-family: "Fraunces", serif;
+        font-size: 26px;
+        line-height: 1.2;
+        margin-bottom: 12px;
+      }
+      .subtitle {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 18px;
+      }
+      .control {
+        margin-bottom: 18px;
+      }
+      label {
+        font-size: 12px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      select, input[type="range"] {
+        width: 100%;
+        margin-top: 6px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid #cfc7bd;
+        background: #fff;
+        font-size: 14px;
+      }
+      .legend {
+        margin-top: 18px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .legend .chip {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        margin-right: 6px;
+        border-radius: 2px;
+      }
+      #map {
+        position: relative;
+      }
+      #mapCanvas {
+        position: absolute;
+        inset: 0;
+      }
+      .tooltip {
+        position: absolute;
+        pointer-events: none;
+        background: #ffffffee;
+        border: 1px solid #d0c6bb;
+        padding: 8px 10px;
+        font-size: 12px;
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      }
+      @media (max-width: 900px) {
+        .page {
+          grid-template-columns: 1fr;
+          grid-template-rows: 300px 1fr;
+        }
+        .sidebar {
+          border-right: none;
+          border-bottom: 1px solid #d5d0c8;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <aside class="sidebar">
+        <div class="title">UK Renewables: Power, Politics, Place</div>
+        <div class="subtitle">
+          Capacity-weighted density of renewable projects. Filter by technology and status to see the geography of build-out.
+        </div>
+
+        <div class="control">
+          <label for="view">View</label>
+          <select id="view">
+            <option value="hex">Density (hex)</option>
+            <option value="points">Points (colored by tech)</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="tech">Technology</label>
+          <select id="tech">
+            <option value="All">All</option>
+            <option value="Solar Photovoltaics">Solar PV</option>
+            <option value="Wind Onshore">Wind Onshore</option>
+            <option value="Wind Offshore">Wind Offshore</option>
+            <option value="Battery">Battery</option>
+            <option value="Anaerobic Digestion">Anaerobic Digestion</option>
+            <option value="Biomass (dedicated)">Biomass (dedicated)</option>
+            <option value="EfW Incineration">EfW Incineration</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="status">Status</label>
+          <select id="status">
+            <option value="Operational">Operational</option>
+            <option value="All">All</option>
+            <option value="Under Construction">Under Construction</option>
+            <option value="Planning Permission  Granted">Planning Granted</option>
+            <option value="Planning Application Submitted">Planning Submitted</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="year">Operational Year (max)</label>
+          <input id="year" type="range" min="1990" max="2025" value="2024" />
+          <div id="yearValue" class="subtitle" style="margin-top:6px;">≤ 2024</div>
+        </div>
+        <div id="countLine" class="subtitle" style="margin-top:-6px;">Loading data…</div>
+
+        <div class="legend">
+          <div><span class="chip" style="background:#2a9d8f"></span>Higher capacity density</div>
+          <div><span class="chip" style="background:#264653"></span>Lower capacity density</div>
+        </div>
+
+        <div class="legend" id="techLegend" style="display:none;">
+          <div><span class="chip" style="background:#f4a261"></span>Solar PV</div>
+          <div><span class="chip" style="background:#2a9d8f"></span>Wind Onshore</div>
+          <div><span class="chip" style="background:#264653"></span>Wind Offshore</div>
+          <div><span class="chip" style="background:#e76f51"></span>Battery/Storage</div>
+          <div><span class="chip" style="background:#6c5b7b"></span>Bio/Waste</div>
+          <div><span class="chip" style="background:#118ab2"></span>Hydro/Marine</div>
+          <div><span class="chip" style="background:#8d99ae"></span>Other</div>
+        </div>
+        <div class="subtitle" style="margin-top:18px;">
+          <a href="hotspots.html">View Hotspots Map</a>
+        </div>
+      </aside>
+
+      <main id="map">
+        <div id="mapCanvas"></div>
+        <div id="tooltip" class="tooltip" style="display:none"></div>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/maplibre-gl@4.1.0/dist/maplibre-gl.js"></script>
+    <script src="https://unpkg.com/deck.gl@9.0.36/dist.min.js"></script>
+    <script>
+      const DATA_URL = "../../data_processed/repd_points.geojson";
+
+      const map = new maplibregl.Map({
+        container: "mapCanvas",
+        style: "https://demotiles.maplibre.org/style.json",
+        center: [-2.6, 54.6],
+        zoom: 5.2
+      });
+
+      let rawFeatures = [];
+      let overlay;
+
+      const techColors = {
+        "Solar Photovoltaics": [244, 162, 97],
+        "Wind Onshore": [42, 157, 143],
+        "Wind Offshore": [38, 70, 83],
+        "Battery": [231, 111, 81],
+        "Anaerobic Digestion": [108, 91, 123],
+        "Biomass (dedicated)": [108, 91, 123],
+        "EfW Incineration": [108, 91, 123],
+        "Small Hydro": [17, 138, 178],
+        "Large Hydro": [17, 138, 178],
+        "Tidal Stream": [17, 138, 178],
+      };
+
+      function colorForTech(tech) {
+        return techColors[tech] || [141, 153, 174];
+      }
+
+      function filterFeatures() {
+        const tech = document.getElementById("tech").value;
+        const status = document.getElementById("status").value;
+        const yearMax = parseInt(document.getElementById("year").value, 10);
+
+        return rawFeatures.filter((f) => {
+          const p = f.properties || {};
+          const techOk = tech === "All" || p.technology_type === tech;
+          const statusOk = status === "All" || p.development_status === status || p.development_status_short === status;
+          const operationalYear = parseInt(p.operational_year || "0", 10);
+          const yearOk = !operationalYear || operationalYear <= yearMax;
+          return techOk && statusOk && yearOk;
+        });
+      }
+
+      function updateLayer() {
+        const data = filterFeatures();
+        const view = document.getElementById("view").value;
+        document.getElementById("techLegend").style.display = view === "points" ? "block" : "none";
+        document.getElementById("countLine").textContent = `${data.length.toLocaleString()} projects shown`;
+
+        const layers = [];
+        if (view === "hex") {
+          layers.push(new deck.HexagonLayer({
+            id: "hex",
+            data,
+            getPosition: d => d.geometry.coordinates,
+            getWeight: d => parseFloat(d.properties.capacity_mw || 0),
+            radius: 8000,
+            elevationScale: 20,
+            elevationRange: [0, 2500],
+            extruded: true,
+            opacity: 0.85,
+            colorRange: [
+              [38, 70, 83],
+              [42, 157, 143],
+              [233, 196, 106],
+              [231, 111, 81]
+            ],
+            pickable: true
+          }));
+        } else {
+          layers.push(new deck.ScatterplotLayer({
+            id: "points",
+            data,
+            getPosition: d => d.geometry.coordinates,
+            getFillColor: d => colorForTech(d.properties.technology_type),
+            getLineColor: [20, 20, 20],
+            getRadius: d => Math.min(16, Math.max(4, Math.log1p(parseFloat(d.properties.capacity_mw || 0)) * 3)),
+            radiusUnits: "pixels",
+            opacity: 0.9,
+            stroked: true,
+            lineWidthMinPixels: 1,
+            pickable: true
+          }));
+        }
+
+        if (!overlay) {
+          overlay = new deck.MapboxOverlay({ layers });
+          map.addControl(overlay);
+        } else {
+          overlay.setProps({ layers });
+        }
+      }
+
+      async function init() {
+        try {
+          const res = await fetch(DATA_URL);
+          if (!res.ok) {
+            throw new Error(`Failed to load data: ${res.status}`);
+          }
+          const geojson = await res.json();
+          rawFeatures = geojson.features || [];
+          console.log("Loaded features:", rawFeatures.length);
+          if (rawFeatures.length > 0) {
+            const techs = new Set(rawFeatures.map(f => f.properties?.technology_type).filter(Boolean));
+            const statuses = new Set(rawFeatures.map(f => f.properties?.development_status).filter(Boolean));
+            console.log("Sample techs:", Array.from(techs).slice(0, 10));
+            console.log("Sample statuses:", Array.from(statuses).slice(0, 10));
+          }
+          updateLayer();
+        } catch (err) {
+          console.error(err);
+          document.getElementById("countLine").textContent = "Data failed to load. Check console.";
+        }
+      }
+
+      document.getElementById("tech").addEventListener("change", updateLayer);
+      document.getElementById("status").addEventListener("change", updateLayer);
+      document.getElementById("view").addEventListener("change", updateLayer);
+      document.getElementById("year").addEventListener("input", (e) => {
+        document.getElementById("yearValue").textContent = `≤ ${e.target.value}`;
+        updateLayer();
+      });
+
+      init();
+    </script>
+  </body>
+</html>
