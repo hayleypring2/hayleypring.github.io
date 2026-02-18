@@ -1,0 +1,4 @@
+model,term,coef,se,z_or_t,pvalue
+baseline,evt_epu_news,-0.059,0.018,-3.288,0.001
+clustered,evt_epu_news,-0.059,0.019,-3.033,0.002
+balanced,evt_epu_news,-0.0983,0.03,-3.331,0.001
