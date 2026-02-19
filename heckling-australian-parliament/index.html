@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Who Gets Heckled in Australian Parliament?</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <p class="kicker">Australian Hansard, 1998-2025</p>
+      <h1>Who Gets Heckled in Australian Parliament?</h1>
+      <p class="dek">
+        A <a href="https://zenodo.org/records/17351233" target="_blank" rel="noopener noreferrer">data</a> story on how parliamentary interjections differ by speaker gender, party, and speech style.
+      </p>
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="label">Speech events analyzed</div>
+          <div class="value" id="n-events">200,229</div>
+        </div>
+        <div class="stat">
+          <div class="label">Total heckles</div>
+          <div class="value" id="total-heckles">0</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="story">
+      <section class="panel">
+        <h2>Gender and Heckling in Parliament</h2>
+      </section>
+      <section class="panel scrolly-wrap">
+        <div class="sticky-figure">
+          <div class="chart-nav" aria-label="Chart selector">
+            <button class="chart-nav-btn is-active" data-chart="assets/charts/yearly_interjection_rate_by_gender.svg">Yearly trend</button>
+            <button class="chart-nav-btn" data-chart="assets/charts/yearly_gender_gap_area.svg">Annual gap</button>
+            <button class="chart-nav-btn" data-chart="assets/charts/party_gender_gap_dumbbell.svg">Party gap</button>
+            <button class="chart-nav-btn" data-chart="assets/charts/chair_gender_split_dumbbell.svg">Chair gender</button>
+            <button class="chart-nav-btn" data-chart="assets/charts/length_interjection_curves.svg">Longer speeches</button>
+          </div>
+          <img id="scrolly-image" src="assets/charts/yearly_interjection_rate_by_gender.svg" alt="Scrollytelling chart panel" />
+          <p class="figure-hint">Scroll (or tap chapters) to switch between yearly, gap, party, chair-gender, and longer-speech views.</p>
+        </div>
+        <div class="chapters">
+          <article class="chapter is-active" data-chart="assets/charts/yearly_interjection_rate_by_gender.svg">
+            <h2>The gender gap is persistent across years</h2>
+            <p>
+              This graph tracks the share of speeches receiving any interjection for male and female speakers over time, with election years and government turnover annotated. Men are heckled more than women in most years, with notable compression and occasional reversals around the Gillard period.
+            </p>
+          </article>
+          <article class="chapter" data-chart="assets/charts/yearly_gender_gap_area.svg">
+            <h2>Annual gap view</h2>
+            <p>
+              Positive values indicate years where male speakers had a higher probability of receiving interjections.
+            </p>
+          </article>
+          <article class="chapter" data-chart="assets/charts/party_gender_gap_dumbbell.svg">
+            <h2>The gap between women and men heckled differs by party</h2>
+            <p>
+              Some show near parity (ALP/Greens); others show much wider (Independents) separation.
+            </p>
+          </article>
+          <article class="chapter" data-chart="assets/charts/chair_gender_split_dumbbell.svg">
+            <h2>Chair gender may condition interruptions</h2>
+            <p>
+              This comparison splits speaker-level interruption rates by whether the presiding officer is a woman or a man. In the current data, interjections are slightly lower when women chair, and the male-female interruption gap is narrower under female chairs (about 6.2 pp) than under male chairs (about 8.3 pp).
+            </p>
+          </article>
+          <article class="chapter" data-chart="assets/charts/length_interjection_curves.svg">
+            <h2>Longer speeches attract more interventions</h2>
+            <p>
+              Interjection risk rises with speech length for both genders, but not equally. At short speech lengths, men and women are near parity; as speeches lengthen, interruption risk rises faster for men, and the gender gap widens.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>What Predicts Heckling?</h2>
+        <p>
+          This interactive view shows model-estimated effect sizes with 95% confidence intervals.
+        </p>
+        <p class="footnote">
+          <span class="inline-help" tabindex="0">
+            Femininity score
+            <span class="inline-help-bubble" role="note">
+              Text-based measure of speech style: higher values indicate language patterns that are more feminine-coded in the model's training data.
+            </span>
+          </span>
+          is included as a predictor in the model.
+        </p>
+        <div class="coef-controls">
+          <button class="coef-btn is-active" data-model="negative_binomial">Negative binomial (count model)</button>
+          <button class="coef-btn" data-model="logit">Logit (Any-heckle model)</button>
+        </div>
+        <p class="footnote">
+          How to read this graph: points to the right of zero are associated with more interjections, points to the left with fewer. Longer horizontal bars indicate more statistical uncertainty; if a bar crosses zero, the direction of the effect is less certain.
+        </p>
+        <img id="coef-fallback" src="assets/charts/model_coefficients_nb.svg" alt="Model coefficients static fallback" />
+        <svg id="coef-plot" viewBox="0 0 900 360" role="img" aria-label="Model coefficients plot"></svg>
+      </section>
+
+      <section class="panel">
+        <h2>Topics and Heckling</h2>
+        <p class="topic-lede">
+          I use a transparent policy-topic dictionary (security/defense, health, economy, foreign policy, education, climate/environment) and test whether interruption exposure differs by speaker gender within each topic and over time.
+        </p>
+        <div class="topic-results">
+          <article class="topic-block">
+            <p class="topic-kicker">Cross-Sectional Pattern</p>
+            <h3>Interruption gaps differ sharply across policy domains</h3>
+            <p class="topic-note">
+              Economy shows the largest male-minus-female interruption gap, while education and health are closer to parity.
+            </p>
+            <figure class="topic-figure">
+              <img src="assets/charts/policy_topic_gender_gap_dumbbell.svg" alt="Policy-topic interruption rates by speaker gender" />
+            </figure>
+          </article>
+
+          <article class="topic-block">
+            <p class="topic-kicker">Dynamic Pattern</p>
+            <h3>Interactive Topic Explorer: gap trends over time</h3>
+            <p class="topic-note">
+              This view tracks yearly male-minus-female interruption gaps by policy topic to identify widening, narrowing, and reversal dynamics.
+            </p>
+            <div class="topic-interactive-wrap">
+              <div class="topic-chart-controls">
+                <div class="topic-metric-row">
+                  <div id="topic-metric-controls" class="topic-view-controls" aria-label="Select metric"></div>
+                  <div class="epu-help" aria-label="Economic Policy Uncertainty index methodology">
+                    <button type="button" class="epu-help-btn" aria-describedby="epu-help-text">?</button>
+                    <div id="epu-help-text" class="epu-help-card" role="note">
+                      Australia EPU is built from 8 newspapers (1998 onward): monthly article counts containing
+                      uncertainty terms + economy terms + policy terms, scaled by all articles per paper-month,
+                      standardized within paper, then averaged and rescaled to mean 100 over 1998-2012.
+                    </div>
+                  </div>
+                </div>
+                <div id="topic-view-controls" class="topic-view-controls" aria-label="Select chart mode"></div>
+                <div id="topic-legend-controls" class="topic-legend-controls" aria-label="Select policy topic focus"></div>
+              </div>
+              <p id="topic-chart-caption" class="topic-chart-caption"></p>
+              <figure class="topic-figure topic-figure-interactive">
+                <svg id="topic-time-svg" viewBox="0 0 980 430" role="img" aria-label="Interactive policy-topic gender interruption gaps over time"></svg>
+                <img id="topic-time-fallback" src="assets/charts/policy_topic_gap_over_time_lines.svg" alt="Policy-topic gender interruption gaps over time" />
+                <div id="topic-tooltip" class="topic-tooltip" hidden></div>
+              </figure>
+            </div>
+          </article>
+        </div>
+
+        <div class="topic-insight-rail">
+          <div class="topic-callout">
+            <div class="topic-label">Largest widening gap</div>
+            <div class="topic-value" id="topic-largest-widening">Computed from current run</div>
+            <div class="topic-explain">Topic where the male-minus-female interruption gap is increasing fastest each year.</div>
+          </div>
+          <div class="topic-callout">
+            <div class="topic-label">Topic reversal</div>
+            <div class="topic-value" id="topic-reversal">Computed from current run</div>
+            <div class="topic-explain">Topic where the gap crosses zero at least once (direction flips over time).</div>
+          </div>
+          <div class="topic-callout">
+            <div class="topic-label">Stable parity-like topic</div>
+            <div class="topic-value" id="topic-stable">Computed from current run</div>
+            <div class="topic-explain">Topic with the flattest trend in the gap (closest to no change over time).</div>
+          </div>
+        </div>
+        <div class="topic-insight-rail">
+          <div class="topic-callout">
+            <div class="topic-label">Most converged topic</div>
+            <div class="topic-value" id="topic-converged">Computing from current run</div>
+            <div class="topic-explain">Topic where the absolute gender gap moved closest toward zero over time.</div>
+          </div>
+          <div class="topic-callout">
+            <div class="topic-label">Most volatile topic</div>
+            <div class="topic-value" id="topic-volatile">Computing from current run</div>
+            <div class="topic-explain">Topic with the largest year-to-year fluctuation in the gender gap.</div>
+          </div>
+          <div class="topic-callout">
+            <div class="topic-label">Largest recent shift</div>
+            <div class="topic-value" id="topic-recent-shift">Computing from current run</div>
+            <div class="topic-explain">Difference in average gap between 2016-2025 and 1998-2007.</div>
+          </div>
+        </div>
+        <p class="footnote">
+          <span class="inline-help" tabindex="0">
+            Method note
+            <span class="inline-help-bubble" role="note">
+              Each speech is assigned to one policy topic using a transparent keyword dictionary; the chart tracks the yearly male-minus-female interruption-rate gap (in percentage points) within each topic.
+            </span>
+          </span>
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>Heckling Profiles: Parties and MPs</h2>
+        <p class="topic-lede">
+          This section shows who heckles most over time by party, and lets readers look up any MP in the corpus by name or unique ID.
+        </p>
+        <p class="footnote">
+          Party coding uses <em>AustralianPoliticians</em> as the base crosswalk and a uniqueID-year patch from observed Hansard party labels through 2025.
+        </p>
+        <div class="topic-results">
+          <article class="topic-block">
+            <p class="topic-kicker">Party Dynamics</p>
+            <h3>Party heckling rates over time</h3>
+            <p class="topic-note">
+              Rates are calculated as interjecting turns per 100 speaking turns within each party and year.
+            </p>
+            <p class="footnote">
+              Interpretation: a higher line means members of that party interjected more often during their speaking turns in that year.
+            </p>
+            <div class="profile-chart-controls" id="party-rate-controls" aria-label="Select parties"></div>
+            <p class="topic-chart-caption" id="party-rate-caption"></p>
+            <figure class="topic-figure topic-figure-interactive">
+              <svg id="party-rate-svg" viewBox="0 0 980 400" role="img" aria-label="Party heckling rates over time"></svg>
+            </figure>
+          </article>
+
+          <article class="topic-block">
+            <p class="topic-kicker">Reader Tool</p>
+            <h3>Look up an MP’s heckling profile</h3>
+            <p class="topic-note">
+              Search by surname, full name, or unique ID. Rankings below are shown among MPs with at least 200 speaking turns.
+            </p>
+            <p class="footnote">
+              Use the toggle to switch between MPs who interject most (hecklers) and MPs who are interrupted most (heckled MPs).
+            </p>
+            <div class="mp-mode-controls" id="mp-mode-controls" aria-label="Select lookup mode">
+              <button type="button" class="topic-view-pill is-active" data-mode="hecklers">Hecklers</button>
+              <button type="button" class="topic-view-pill" data-mode="heckled">Heckled MPs</button>
+            </div>
+            <p id="mp-mode-caption" class="topic-chart-caption">
+              Showing MPs who interject most often.
+            </p>
+            <div class="mp-lookup-row">
+              <input id="mp-lookup-input" class="mp-lookup-input" type="search" placeholder="Try: Albanese, Pyne, or Albanese1963" />
+              <button id="mp-lookup-clear" class="topic-view-pill" type="button">Clear</button>
+            </div>
+            <div id="mp-lookup-result" class="mp-lookup-result">Type to search the MP profile table.</div>
+            <div class="mp-table-wrap">
+              <table class="mp-table">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>MP</th>
+                    <th>Party</th>
+                    <th>Years active</th>
+                    <th><button type="button" class="mp-sort-btn" data-sort="nTurns">Turns</button></th>
+                    <th><button type="button" class="mp-sort-btn is-active" data-sort="nHeckles">Heckles</button></th>
+                    <th><button type="button" class="mp-sort-btn" data-sort="rate">Rate / 100 turns</button></th>
+                  </tr>
+                </thead>
+                <tbody id="mp-top-table-body"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        Data citation: Katz, L. and Alexander, R. (2023). <a href="https://www.nature.com/articles/s41597-023-02464-w" target="_blank" rel="noopener noreferrer">Digitization of the Australian parliamentary debates</a>, 1998-2022. <em>Scientific Data</em>, 10(1), 567.
+      </p>
+    </footer>
+
+    <script src="assets/js/site.js"></script>
+  </body>
+</html>
