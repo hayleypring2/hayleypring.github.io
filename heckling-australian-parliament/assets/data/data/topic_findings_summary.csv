@@ -1,6 +1,0 @@
-finding,topic_id,topic_label,value,note
-largest_gap_topic,economy,Economy,11.840366759816105,Male minus female interruption-rate gap (pp)
-smallest_gap_topic,education,Education,3.853482833441843,Closest to parity (pp)
-largest_widening_topic,climate_environment,Climate/Environment,0.3268267102004866,Gap trend slope (pp/year)
-most_stable_topic,security_defense,Security/Defense,-0.0017010355895576343,"Gap trend slope (pp/year, close to 0 is stable)"
-reversal_topic,climate_environment,Climate/Environment,0.3268267102004866,Topic exhibits sign reversal in gender gap over time
